@@ -1,2 +1,0 @@
-# gocards
-go card deck
