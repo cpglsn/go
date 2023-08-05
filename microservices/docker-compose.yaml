@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  front-end:
+    container_name: front-end
+    build:
+      context: ./front-end
+    restart: always
+    ports:
+      - "8001:8000"
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  broker-service:
+    container_name: broker-service
+    build:
+      context: ./broker-service
+    restart: always
+    ports:
+      - "8002:8000"
+    deploy:
+      mode: replicated
+      replicas: 1
