@@ -26,13 +26,27 @@ build_container_broker-service:
 	@echo "broker-service container built"
 
 
+## build_go_authentication-service: build authentication-service go code
+build_go_authentication-service:
+	@echo "Building authentication-service go code"
+	cd authentication-service && env GOOS=linux CGO_ENABLED=0 go build -o authentication-service ./cmd/api
+	@echo "authentication-service go code compiled"
+
+
+## build_container_authentication-service: build authentication-service container
+build_container_authentication-service:
+	@echo "Building authentication-service go container"
+	docker compose build authentication-service
+	@echo "authentication-service container built"
+
+
 ## build_go_all: build all go code
-build_go_all: build_go_front-end build_go_broker-service
+build_go_all: build_go_front-end build_go_broker-service build_go_authentication-service
 	@echo "All go code compiled"
 
 
 ## build_container_all: build all containers
-build_container_all: build_container_front-end build_container_broker-service
+build_container_all: build_container_front-end build_container_broker-service build_container_authentication-service
 	@echo "All containers built"
 
 
@@ -45,6 +59,8 @@ build: build_go_all build_container_all
 up:
 	@echo "Starting Docker images..."
 	docker compose up -d
+	sleep 10s
+	PGPASSWORD=secret psql -h localhost -U postgres -p 5432 -d users < users.sql
 	@echo "Docker images started!"
 
 

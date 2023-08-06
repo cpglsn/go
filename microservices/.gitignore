@@ -1,3 +1,4 @@
 # bin files
 broker-service/broker-service
 front-end/front-end
+authentication-service/authentication-service
